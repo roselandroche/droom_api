@@ -1,3 +1,22 @@
+const jwt = require('jsonwebtoken');
+
+module.exports = {
+  generator,
+  restrict
+};
+
+// Sets our payload and options then signs a token using the payload, our environment secret, and options.
+function generator(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username
+  };
+  const options = {
+    expiresIn: '8h'
+  };
+  return jwt.sign(payload, process.env.SECRET, options);
+}
+
 // if no error occurs and the token is verified it sends a decoded token to the user and moves next.
 // If there is no token at all, an error message tells the user no token was provided.
 function restrict(req, res, next) {
