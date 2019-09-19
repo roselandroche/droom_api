@@ -1,32 +1,32 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-  addUser,
-  userFindBy,
-  userFindById,
-  get
+  sampleAddUser,
+  sampleFindBy,
+  sampleFindById,
+  sampleGet
 };
 
 // Sets ID to await an insertion of a new user into the users DB then finds the user using the
 // Given ID and returns it
-async function addUser(user) {
+async function sampleAddUser(user) {
   const [id] = await db('users').insert(user);
-  return userFindById(id);
+  return sampleFindById(id);
 }
 // Using a given filter, filters users table and returns the filtered user
-async function userFindBy(filter) {
+async function sampleFindBy(filter) {
   return db('users')
     .where(filter)
     .first();
 }
 
 // Using a given ID, finds the ID within the users table and returns the first user found matching that ID
-async function userFindById(id) {
+async function sampleFindById(id) {
   return db('users')
     .where({ id })
     .first();
 }
 
-async function get(data) {
+async function sampleGet(data) {
   return db(data);
 }

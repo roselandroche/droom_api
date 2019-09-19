@@ -9,7 +9,7 @@ exports.up = function(knex) {
       users.string('password', 128).notNullable();
       users.enum('role', ['employee', 'employer']).notNullable();
     })
-    .createTable('prospect', function(prospect) {
+    .createTable('prospect', prospect => {
       prospect.increments();
       prospect.string('name', 128).notNullable();
       prospect
@@ -20,7 +20,7 @@ exports.up = function(knex) {
       prospect.string('job_title', 128).notNullable();
       prospect.string('skills').notNullable();
     })
-    .createTable('employer', function(employer) {
+    .createTable('employer', employer => {
       employer.increments();
       employer.string('company_name', 128).notNullable();
       employer.string('about_us').notNullable();

@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const middleware = require('../auth/auth-middleware');
 const sample = require('../models/sample-model');
 
+// POST /api/sample/register -> {username, password, role[employee, employer]}
 router.post('/register', (req, res) => {
   // Destructures body into user
   const user = req.body;
@@ -13,7 +14,7 @@ router.post('/register', (req, res) => {
   // Using the helper function add, we send the user object to the database, then we send the user a response
   // Introducing them to our dadjoke hellscape
   sample
-    .addUser(user)
+    .sampleAddUser(user)
     .then(sampleUser => {
       const { username } = sampleUser;
       res.status(201).json({ message: `Good luck, ${username}` });
@@ -23,6 +24,7 @@ router.post('/register', (req, res) => {
     });
 });
 
+// POST /api/sample/login -> {username, password}
 router.post('/login', (req, res) => {
   // Destructing username and password from request body
   const { username, password } = req.body;
@@ -32,10 +34,12 @@ router.post('/login', (req, res) => {
   // returned an object with a welcome back message and the token. If either the user does not exist or the password cannot be verified
   // YOU SHALL NOT PASS! if something weird happens we send them ol' reliable status500.
   sample
-    .userFindBy({ username })
+    .sampleFindBy({ username })
     .then(user => {
+      console.log(user);
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = middleware.generator(user);
+        const token = sampleGenerator(user);
+        console.log(token);
         res
           .status(200)
           .json({ message: `Welcome Back ${user.username}`, token });
@@ -48,9 +52,10 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.get('/prospect', async (req, res) => {
+// GET /api/sample/prospects
+router.get('/prospects', async (req, res) => {
   try {
-    const getProspects = await sample.get('prospect');
+    const getProspects = await sample.sampleGet('prospect');
     res.status(200).json(getProspects);
   } catch (error) {
     // log error
@@ -59,14 +64,27 @@ router.get('/prospect', async (req, res) => {
   }
 });
 
-router.get('/employer', async (req, res) => {
+// GET /api/sample/employers
+router.get('/employers', async (req, res) => {
   try {
-    const getEmployers = await sample.get('employer');
+    const getEmployers = await sample.sampleGet('employer');
     res.status(200).json(getEmployers);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Error processing request' });
   }
 });
+
+function sampleGenerator(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    role: user.role
+  };
+  const options = {
+    expiresIn: '15m'
+  };
+  return jwt.sign(payload, process.env.SECRET, options);
+}
 
 module.exports = router;

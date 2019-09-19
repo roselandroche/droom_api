@@ -9,7 +9,8 @@ module.exports = {
 function generator(user) {
   const payload = {
     subject: user.id,
-    username: user.username
+    username: user.username,
+    role: user.role
   };
   const options = {
     expiresIn: '8h'
