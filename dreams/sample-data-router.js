@@ -53,7 +53,7 @@ router.post('/login', (req, res) => {
 // GET /api/sample/prospects
 router.get('/prospects', async (req, res) => {
   try {
-    const getProspects = await sample.sampleGet('prospect');
+    const getProspects = await sample.sampleGet();
     res.status(200).json(getProspects);
   } catch (error) {
     res.status(500).json({ message: 'Error processing request' });

@@ -33,8 +33,12 @@ function sampleFindById(id) {
     .first();
 }
 
-async function sampleGet(table) {
-  return db.select('*').from(table);
+// async function sampleGet(table) {
+//   return db.select('*').from(table);
+// }
+
+function sampleGet() {
+  return db.select('*').from('prospect');
 }
 
 async function add(table, data) {
