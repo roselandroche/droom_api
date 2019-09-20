@@ -22,7 +22,12 @@ async function sampleFindBy(filter) {
 }
 
 // Using a given ID, finds the ID within the users table and returns the first user found matching that ID
-async function sampleFindById(id) {
+// async function sampleFindById(id) {
+//   return db('users')
+//     .where({ id })
+//     .first();
+// }
+function sampleFindById(id) {
   return db('users')
     .where({ id })
     .first();
