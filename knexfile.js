@@ -2,27 +2,21 @@ module.exports = {
   // Development/Prod Configuration
   development: {
     client: 'pg',
+    connection: {
+      host: '127.0.0.1',
+      user: process.env.DEV_USER,
+      password: process.env.DEV_PW,
+      database: 'droom_test'
+    }
+  },
+  production: {
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
       directory: __dirname + '/database/migrations'
     },
     seeds: {
       directory: __dirname + '/database/seeds'
-    }
-  },
-  // Testing configuration
-  // Allows npx knex migrate:latest --env=testing (automatically sets cross-env using cross-env in test script)
-  testing: {
-    client: 'sqlite3',
-    connection: {
-      filename: './database/test.db3'
-    },
-    useNullAsDefault: true,
-    migrations: {
-      directory: './database/migrations'
-    },
-    seeds: {
-      directory: './database/seeds'
     }
   }
 };
