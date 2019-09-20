@@ -33,9 +33,5 @@ async function sampleGet(table) {
 }
 
 async function add(table, data) {
-  return db(table)
-    .insert(data)
-    .then(ids => {
-      return sampleFindById(ids[0]);
-    });
+  return db(table).insert(data);
 }
