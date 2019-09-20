@@ -16,7 +16,7 @@ exports.up = function(knex) {
         .string('email', 128)
         .notNullable()
         .unique();
-      prospect.integer('phone_number', 10).notNullable();
+      prospect.bigInteger('phone_number', 10).notNullable();
       prospect.string('job_title', 128).notNullable();
       prospect.string('skills').notNullable();
     })
