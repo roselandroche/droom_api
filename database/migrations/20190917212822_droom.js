@@ -25,7 +25,7 @@ exports.up = function(knex) {
       employer.string('company_name', 128).notNullable();
       employer.string('about_us').notNullable();
       employer.string('position', 128).notNullable();
-      employer.string('req_skills', 128).notNullable();
+      employer.string('req_skills').notNullable();
       employer.string('bonus_skills', 128).notNullable();
     });
 };
