@@ -11,10 +11,10 @@ module.exports = {
       database: 'droom_test'
     },
     migrations: {
-      directory: __dirname + '/db/migrations'
+      directory: __dirname + '/database/migrations'
     },
     seeds: {
-      directory: __dirname + '/db/seeds/development'
+      directory: __dirname + '/database/seeds'
     }
   },
   production: {
