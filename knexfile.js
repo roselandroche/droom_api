@@ -1,15 +1,10 @@
 module.exports = {
   // Development/Prod Configuration
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     useNullAsDefault: true,
     connection: {
       filename: './database/droom.db3'
-    },
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      }
     },
     migrations: {
       directory: './database/migrations'
