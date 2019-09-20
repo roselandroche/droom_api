@@ -7,11 +7,17 @@ module.exports = {
       user: process.env.DEV_USER,
       password: process.env.DEV_PW,
       database: 'droom_test'
+    },
+    migrations: {
+      directory: __dirname + '/db/migrations'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/development'
     }
   },
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL + '?ssl=true',
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: __dirname + '/database/migrations'
     },
