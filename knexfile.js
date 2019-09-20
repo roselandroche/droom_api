@@ -2,10 +2,7 @@ module.exports = {
   // Development/Prod Configuration
   development: {
     client: 'pg',
-    useNullAsDefault: true,
-    connection: {
-      filename: './database/droom.db3'
-    },
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: './database/migrations'
     },
