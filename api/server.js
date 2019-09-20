@@ -13,4 +13,8 @@ server.use(express.json());
 
 server.use('/api/sample', sampleRouter);
 
+server.get('/', (req, res) => {
+  res.send({ message: 'DROOM API' });
+});
+
 module.exports = server;
