@@ -29,7 +29,7 @@ async function sampleFindById(id) {
 }
 
 async function sampleGet(table) {
-  return db(table);
+  return db.select('*').from(table);
 }
 
 async function add(table, data) {
