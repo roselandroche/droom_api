@@ -1,4 +1,6 @@
 require('dotenv').config();
+const pg = require('pg');
+pg.defaults.ssl = true;
 
 module.exports = {
   // Development/Prod Configuration
@@ -20,6 +22,11 @@ module.exports = {
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
+    ssl: true,
+    pool: {
+      min: 2,
+      max: 10
+    },
     migrations: {
       directory: __dirname + '/database/migrations'
     },
