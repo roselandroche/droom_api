@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
       res.status(201).json({ message: `Good luck, ${username}` });
     })
     .catch(err => {
-      res.status(500).json(err);
+      res.status(500).json({ message: 'Error processing request' });
     });
 });
 
@@ -36,10 +36,8 @@ router.post('/login', (req, res) => {
   sample
     .sampleFindBy({ username })
     .then(user => {
-      console.log(user);
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = sampleGenerator(user);
-        console.log(token);
         res
           .status(200)
           .json({ message: `Welcome Back ${user.username}`, token });
@@ -48,7 +46,7 @@ router.post('/login', (req, res) => {
       }
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({ message: 'Error processing request' });
     });
 });
 
@@ -58,8 +56,6 @@ router.get('/prospects', async (req, res) => {
     const getProspects = await sample.sampleGet('prospect');
     res.status(200).json(getProspects);
   } catch (error) {
-    // log error
-    console.log(error);
     res.status(500).json({ message: 'Error processing request' });
   }
 });
@@ -70,7 +66,24 @@ router.get('/employers', async (req, res) => {
     const getEmployers = await sample.sampleGet('employer');
     res.status(200).json(getEmployers);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
+router.post('/prospects', validateProspectPost, async (req, res) => {
+  try {
+    const addProspect = await sample.add('prospect', req.body);
+    res.status(201).json(addProspect);
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
+router.post('/employers', validateEmployerPost, async (req, res) => {
+  try {
+    const addEmployer = await sample.add('employer', req.body);
+    res.status(201).json(addEmployer);
+  } catch (error) {
     res.status(500).json({ message: 'Error processing request' });
   }
 });
@@ -85,6 +98,42 @@ function sampleGenerator(user) {
     expiresIn: '15m'
   };
   return jwt.sign(payload, process.env.SECRET, options);
+}
+
+function validateProspectPost(req, res, next) {
+  if (!req.body) {
+    res.status(400).json({ message: 'missing body' });
+  } else if (!req.body.name) {
+    res.status(400).json({ message: 'missing required name field' });
+  } else if (!req.body.email) {
+    res.status(400).json({ message: 'missing required email field' });
+  } else if (!req.body.phone_number) {
+    res.status(400).json({ message: 'missing required phone number field' });
+  } else if (!req.body.job_title) {
+    res.status(400).json({ message: 'missing required job title field' });
+  } else if (!req.body.skills) {
+    res.status(400).json({ message: 'missing required skills field' });
+  } else {
+    next();
+  }
+}
+
+function validateEmployerPost(req, res, next) {
+  if (!req.body) {
+    res.status(400).json({ message: 'missing body' });
+  } else if (!req.body.company_name) {
+    res.status(400).json({ message: 'missing required company name field' });
+  } else if (!req.body.about_us) {
+    res.status(400).json({ message: 'missing required about field' });
+  } else if (!req.body.position) {
+    res.status(400).json({ message: 'missing required position field' });
+  } else if (!req.body.req_skills) {
+    res.status(400).json({ message: 'missing required req skills field' });
+  } else if (!req.body.bonus_skills) {
+    res.status(400).json({ message: 'missing required bonus skills field' });
+  } else {
+    next();
+  }
 }
 
 module.exports = router;

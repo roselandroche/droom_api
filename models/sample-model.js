@@ -4,7 +4,8 @@ module.exports = {
   sampleAddUser,
   sampleFindBy,
   sampleFindById,
-  sampleGet
+  sampleGet,
+  add
 };
 
 // Sets ID to await an insertion of a new user into the users DB then finds the user using the
@@ -27,6 +28,14 @@ async function sampleFindById(id) {
     .first();
 }
 
-async function sampleGet(data) {
-  return db(data);
+async function sampleGet(table) {
+  return db(table);
+}
+
+async function add(table, data) {
+  return db(table)
+    .insert(data)
+    .then(ids => {
+      return sampleFindById(ids[0]);
+    });
 }
