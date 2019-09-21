@@ -47,6 +47,6 @@ async function sampleGet(table) {
 async function add(table, data) {
   const [id] = await db(table).insert(data);
   return db(table)
-    .where({ id })
+    .where({ id: id })
     .first();
 }
