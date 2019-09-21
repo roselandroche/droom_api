@@ -36,10 +36,13 @@ async function sampleGet(table) {
 
 function add(table, data) {
   const selectedTable = table;
+
   return db(selectedTable)
     .insert(data)
     .then(id => {
-      return db(selectedTable).first({ id });
+      return db(selectedTable)
+        .where({ id: ids[0] })
+        .first();
     });
 }
 
