@@ -35,7 +35,13 @@ async function sampleGet(table) {
 }
 
 async function add(table, data) {
-  return db(table).insert(data);
+  return db(table)
+    .insert(data)
+    .then(id => {
+      return db(table)
+        .where({ id })
+        .first();
+    });
 }
 
 // async function add(table, data) {
