@@ -50,6 +50,16 @@ router.post('/login', (req, res) => {
     });
 });
 
+// GET /api/sample/users
+router.get('/login', async (_, res) => {
+  try {
+    const getUsers = await sample.sampleGet('users');
+    res.status(200).json(getUsers);
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
 // GET /api/sample/prospects
 router.get('/prospects', async (_, res) => {
   try {
