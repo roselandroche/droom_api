@@ -6,7 +6,7 @@ exports.up = function(knex) {
         .string('username', 128)
         .notNullable()
         .unique();
-      users.string('password', 40).notNullable();
+      users.string('password', 128).notNullable();
       users.enum('role', ['employee', 'employer']).notNullable();
     })
     .createTable('prospect', prospect => {
@@ -16,7 +16,7 @@ exports.up = function(knex) {
         .string('email', 128)
         .notNullable()
         .unique();
-      prospect.bigInteger('phone_number', 10).notNullable();
+      prospect.string('phone_number', 10).notNullable();
       prospect.string('job_title', 128).notNullable();
       prospect.string('skills', 1000).notNullable();
     })

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const sample = require('../models/sample-model');
 
 // POST /api/sample/register -> {username, password, role[employee, employer]}
+// TODO user password shouldn't be over 40 chars (middleware)
 router.post('/register', (req, res) => {
   // Destructures body into user
   const user = req.body;
@@ -19,7 +20,8 @@ router.post('/register', (req, res) => {
       const { username } = sampleUser;
       res.status(201).json({ message: `Good luck, ${username}` });
     })
-    .catch(err => {
+    .catch(error => {
+      console.log(error);
       res.status(500).json({ message: 'Error processing request' });
     });
 });
@@ -46,6 +48,7 @@ router.post('/login', (req, res) => {
       }
     })
     .catch(error => {
+      console.log(error);
       res.status(500).json({ message: 'Error processing request' });
     });
 });

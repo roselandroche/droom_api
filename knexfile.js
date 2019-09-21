@@ -1,6 +1,4 @@
 require('dotenv').config();
-const pg = require('pg');
-pg.defaults.ssl = true;
 
 module.exports = {
   // Development/Prod Configuration
@@ -8,6 +6,7 @@ module.exports = {
     client: 'pg',
     connection: {
       host: '127.0.0.1',
+      port: 5432,
       user: process.env.DEV_USER,
       password: process.env.DEV_PW,
       database: 'droom_test'
@@ -17,7 +16,8 @@ module.exports = {
     },
     seeds: {
       directory: __dirname + '/database/seeds'
-    }
+    },
+    ssl: true
   },
   production: {
     client: 'pg',

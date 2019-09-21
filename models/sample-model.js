@@ -11,7 +11,11 @@ module.exports = {
 // Sets ID to await an insertion of a new user into the users DB then finds the user using the
 // Given ID and returns it
 async function sampleAddUser(user) {
-  const [id] = await db('users').insert(user);
+  const [id] = await db
+    .from('users')
+    .insert(user)
+    .returning('id');
+  console.log('***ID***', id);
   return sampleFindById(id);
 }
 // Using a given filter, filters users table and returns the filtered user
@@ -35,18 +39,9 @@ async function sampleGet(table) {
 }
 
 async function add(table, data) {
-  return db(table)
+  const [item] = await db
+    .from(table)
     .insert(data)
-    .then(id => {
-      return db(table)
-        .where({ id })
-        .first();
-    });
+    .returning('*');
+  return item;
 }
-
-// async function add(table, data) {
-//   const [id] = await db(table).insert(data);
-//   return db(table)
-//     .where({ id })
-//     .first();
-// }
