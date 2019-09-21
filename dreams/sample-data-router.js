@@ -51,7 +51,7 @@ router.post('/login', (req, res) => {
 });
 
 // GET /api/sample/prospects
-router.get('/prospects', async (req, res) => {
+router.get('/prospects', async (_, res) => {
   try {
     const getProspects = await sample.sampleGet('prospect');
     res.status(200).json(getProspects);
@@ -61,7 +61,7 @@ router.get('/prospects', async (req, res) => {
 });
 
 // GET /api/sample/employers
-router.get('/employers', async (req, res) => {
+router.get('/employers', async (_, res) => {
   try {
     const getEmployers = await sample.sampleGet('employer');
     res.status(200).json(getEmployers);
