@@ -34,16 +34,8 @@ async function sampleGet(table) {
   return db.select('*').from(table);
 }
 
-function add(table, data) {
-  const selectedTable = table;
-
-  return db(selectedTable)
-    .insert(data)
-    .then(ids => {
-      return db(selectedTable)
-        .where({ id: ids[0] })
-        .first();
-    });
+async function add(table, data) {
+  return db(table).insert(data);
 }
 
 // async function add(table, data) {
