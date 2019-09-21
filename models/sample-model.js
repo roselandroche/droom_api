@@ -37,9 +37,9 @@ async function sampleGet(table) {
 async function add(table, data) {
   return db(table)
     .insert(data)
-    .then(ids => {
+    .then(id => {
       return db(table)
-        .where({ id: ids[0] })
+        .where({ id })
         .first();
     });
 }
