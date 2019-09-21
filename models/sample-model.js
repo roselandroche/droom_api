@@ -34,19 +34,20 @@ async function sampleGet(table) {
   return db.select('*').from(table);
 }
 
-// async function add(table, data) {
-//   return db(table)
-//     .insert(data)
-//     .then(id => {
-//       return db(table)
-//         .where({ id })
-//         .first();
-//     });
-// }
-
-async function add(table, data) {
-  const [id] = await db(table).insert(data);
-  return db(table)
-    .where({ id: id })
-    .first();
+function add(table, data) {
+  const selectedTable = table;
+  return db(selectedTable)
+    .insert(data)
+    .then(id => {
+      return db(selectedTable)
+        .where({ id })
+        .first();
+    });
 }
+
+// async function add(table, data) {
+//   const [id] = await db(table).insert(data);
+//   return db(table)
+//     .where({ id })
+//     .first();
+// }
