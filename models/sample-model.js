@@ -39,9 +39,7 @@ function add(table, data) {
   return db(selectedTable)
     .insert(data)
     .then(id => {
-      return db(selectedTable)
-        .where({ id })
-        .first();
+      return db(selectedTable).first({ id });
     });
 }
 
