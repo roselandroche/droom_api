@@ -93,6 +93,15 @@ router.get('/employers', async (_, res) => {
   }
 });
 
+router.get('/postings', async (_, res) => {
+  try {
+    const getPostings = await sample.sampleGet('listings');
+    res.status(200).json(getPostings);
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
 router.post('/prospects', validateProspectPost, async (req, res) => {
   try {
     const addProspect = await sample.add('prospect', req.body);
@@ -106,6 +115,15 @@ router.post('/employers', validateEmployerPost, async (req, res) => {
   try {
     const addEmployer = await sample.add('employer', req.body);
     res.status(201).json(addEmployer);
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
+router.post('/postings', validateListing, async (req, res) => {
+  try {
+    const addPosting = await sample.add('listings', req.body);
+    res.status(201).json(addPosting);
   } catch (error) {
     res.status(500).json({ message: 'Error processing request' });
   }
@@ -141,6 +159,22 @@ function validateProspectPost(req, res, next) {
   }
 }
 
+function validateListing(req, res, next) {
+  if (!req.body) {
+    res.status(400).json({ message: 'missing body' });
+  } else if (!req.body.company) {
+    res.status(400).json({ message: 'missing required name field' });
+  } else if (!req.body.position) {
+    res.status(400).json({ message: 'missing required position field' });
+  } else if (!req.body.req_skills) {
+    res.status(400).json({ message: 'missing required req skills field' });
+  } else if (!req.body.bonus_skills) {
+    res.status(400).json({ message: 'missing required bonus skills field' });
+  } else {
+    next();
+  }
+}
+
 function validateEmployerPost(req, res, next) {
   if (!req.body) {
     res.status(400).json({ message: 'missing body' });
@@ -148,12 +182,6 @@ function validateEmployerPost(req, res, next) {
     res.status(400).json({ message: 'missing required company name field' });
   } else if (!req.body.about_us) {
     res.status(400).json({ message: 'missing required about field' });
-  } else if (!req.body.position) {
-    res.status(400).json({ message: 'missing required position field' });
-  } else if (!req.body.req_skills) {
-    res.status(400).json({ message: 'missing required req skills field' });
-  } else if (!req.body.bonus_skills) {
-    res.status(400).json({ message: 'missing required bonus skills field' });
   } else {
     next();
   }
