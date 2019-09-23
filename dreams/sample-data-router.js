@@ -5,8 +5,7 @@ const jwt = require('jsonwebtoken');
 const sample = require('../models/sample-model');
 
 // POST /api/sample/register -> {username, password, role[employee, employer]}
-// TODO user password shouldn't be over 40 chars (middleware)
-router.post('/register', (req, res) => {
+router.post('/register', validateRegistration, (req, res) => {
   // Destructures body into user
   const user = req.body;
   // Takes users password and encrypts
@@ -139,6 +138,24 @@ function sampleGenerator(user) {
     expiresIn: '15m'
   };
   return jwt.sign(payload, process.env.SECRET, options);
+}
+
+function validateRegistration(req, res, next) {
+  if (!req.body) {
+    res.status(400).json({ message: 'missing body' });
+  } else if (!req.body.username) {
+    res.status(400).json({ message: 'missing required username field' });
+  } else if (req.body.password.length > 40) {
+    res
+      .status(400)
+      .json({ message: 'password is too long (40 characters max)' });
+  } else if (!req.body.password) {
+    res.status(400).json({ message: 'missing required password field' });
+  } else if (!req.body.role) {
+    res.status(400).json({ message: 'missing required role field' });
+  } else {
+    next();
+  }
 }
 
 function validateProspectPost(req, res, next) {
