@@ -5,8 +5,7 @@ const jwt = require('jsonwebtoken');
 const sample = require('../models/sample-model');
 
 // POST /api/sample/register -> {username, password, role[employee, employer]}
-// TODO user password shouldn't be over 40 chars (middleware)
-router.post('/register', (req, res) => {
+router.post('/register', validateRegistration, (req, res) => {
   // Destructures body into user
   const user = req.body;
   // Takes users password and encrypts
@@ -93,6 +92,15 @@ router.get('/employers', async (_, res) => {
   }
 });
 
+router.get('/postings', async (_, res) => {
+  try {
+    const getPostings = await sample.sampleGet('listings');
+    res.status(200).json(getPostings);
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
 router.post('/prospects', validateProspectPost, async (req, res) => {
   try {
     const addProspect = await sample.add('prospect', req.body);
@@ -111,6 +119,15 @@ router.post('/employers', validateEmployerPost, async (req, res) => {
   }
 });
 
+router.post('/postings', validateListing, async (req, res) => {
+  try {
+    const addPosting = await sample.add('listings', req.body);
+    res.status(201).json(addPosting);
+  } catch (error) {
+    res.status(500).json({ message: 'Error processing request' });
+  }
+});
+
 function sampleGenerator(user) {
   const payload = {
     subject: user.id,
@@ -121,6 +138,24 @@ function sampleGenerator(user) {
     expiresIn: '15m'
   };
   return jwt.sign(payload, process.env.SECRET, options);
+}
+
+function validateRegistration(req, res, next) {
+  if (!req.body) {
+    res.status(400).json({ message: 'missing body' });
+  } else if (!req.body.username) {
+    res.status(400).json({ message: 'missing required username field' });
+  } else if (req.body.password.length > 40) {
+    res
+      .status(400)
+      .json({ message: 'password is too long (40 characters max)' });
+  } else if (!req.body.password) {
+    res.status(400).json({ message: 'missing required password field' });
+  } else if (!req.body.role) {
+    res.status(400).json({ message: 'missing required role field' });
+  } else {
+    next();
+  }
 }
 
 function validateProspectPost(req, res, next) {
@@ -141,6 +176,22 @@ function validateProspectPost(req, res, next) {
   }
 }
 
+function validateListing(req, res, next) {
+  if (!req.body) {
+    res.status(400).json({ message: 'missing body' });
+  } else if (!req.body.company) {
+    res.status(400).json({ message: 'missing required name field' });
+  } else if (!req.body.position) {
+    res.status(400).json({ message: 'missing required position field' });
+  } else if (!req.body.req_skills) {
+    res.status(400).json({ message: 'missing required req skills field' });
+  } else if (!req.body.bonus_skills) {
+    res.status(400).json({ message: 'missing required bonus skills field' });
+  } else {
+    next();
+  }
+}
+
 function validateEmployerPost(req, res, next) {
   if (!req.body) {
     res.status(400).json({ message: 'missing body' });
@@ -148,12 +199,6 @@ function validateEmployerPost(req, res, next) {
     res.status(400).json({ message: 'missing required company name field' });
   } else if (!req.body.about_us) {
     res.status(400).json({ message: 'missing required about field' });
-  } else if (!req.body.position) {
-    res.status(400).json({ message: 'missing required position field' });
-  } else if (!req.body.req_skills) {
-    res.status(400).json({ message: 'missing required req skills field' });
-  } else if (!req.body.bonus_skills) {
-    res.status(400).json({ message: 'missing required bonus skills field' });
   } else {
     next();
   }
