@@ -26,24 +26,24 @@ exports.up = function(knex) {
       employer.string('company_name', 128).notNullable();
       employer.string('about_us', 1000).notNullable();
     })
-    .createTable('postings', postings => {
-      postings.increments();
-      postings
-        .integer('company_id')
-        .unsigned()
-        .nonNullable()
+    .createTable('listings', listings => {
+      listings.increments();
+      listings
+        .integer('company')
+        .notNullable()
         .references('id')
         .inTable('employer')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
-      employer.string('position', 128).notNullable();
-      employer.string('req_skills', 1000).notNullable();
-      employer.string('bonus_skills', 1000).notNullable();
+      listings.string('position', 128).notNullable();
+      listings.string('req_skills', 1000).notNullable();
+      listings.string('bonus_skills', 1000).notNullable();
     });
 };
 
 exports.down = function(knex, Promise) {
   return knex.schema
+    .dropTableIfExists('listings')
     .dropTableIfExists('users')
     .dropTableIfExists('prospect')
     .dropTableIfExists('employer');
