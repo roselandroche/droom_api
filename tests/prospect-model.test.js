@@ -1,31 +1,13 @@
 const Prospect = require('../models/prospect-model');
-const server = require('../api/server');
 const db = require('../database/dbConfig');
+const constant = require('./constants');
 
 describe('The Prospect Model', () => {
+  const { testProspect, anotherTestProspect } = constant;
+
   beforeEach(async () => {
     await db('prospect').truncate();
   });
-
-  // Adding a test prospect to test insert and add
-  const testProspect = {
-    name: 'Test Prospect',
-    email: 'Test@jest.com',
-    phone_number: '0000000000',
-    job_title: 'Test',
-    skills: 'Jest, Supertest',
-    about_me: 'I am the first Test Prospect'
-  };
-
-  // Adding a second test prospect to test filtered return
-  const anotherTestProspect = {
-    name: 'Test Prospect 2',
-    email: 'Test2@jest.com',
-    phone_number: '0000000001',
-    job_title: 'Test',
-    skills: 'Jest, Supertest',
-    about_me: 'I am the second Test Prospect'
-  };
 
   test('Should add our new test prospect', async () => {
     // Test Setup
@@ -54,15 +36,5 @@ describe('The Prospect Model', () => {
     expect(prospects[1].id).toBe(2);
   });
 
-  test('Should return a single prospect', async () => {
-    // Test Setup
-    await Prospect.add(testProspect);
-    await Prospect.add(anotherTestProspect);
-
-    // Assertion
-    const single = await Prospect.single(1);
-    console.log(single);
-    expect(single.id).toBe(1);
-    expect(single.name).toBe('Test Prospect');
-  });
+  test.skip('Should return a single company', async () => {});
 });

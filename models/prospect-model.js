@@ -3,7 +3,7 @@ const db = require('../database/dbConfig.js');
 module.exports = {
   get,
   add,
-  single
+  singleCompany
 };
 
 async function get() {
@@ -18,10 +18,10 @@ async function add(data) {
   return prospect;
 }
 
-async function single(id) {
-  const [prospect] = await db
-    .select('name', 'email', 'phone_number', 'job_title', 'skills', 'about_me')
-    .from('prospect')
+async function singleCompany(id) {
+  const [company] = await db
+    .select('company_name', 'about_us')
+    .from('employer')
     .where({ id });
-  return prospect;
+  return company;
 }
