@@ -15,7 +15,6 @@ async function sampleAddUser(user) {
     .from('users')
     .insert(user)
     .returning('id');
-  console.log('***ID***', id);
   return sampleFindById(id);
 }
 // Using a given filter, filters users table and returns the filtered user

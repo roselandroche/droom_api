@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
 
-const middleware = require('./authenticate-middleware');
+const middleware = require('./auth-middleware');
 const Users = require('../models/user-model');
 
 router.post('/register', (req, res) => {
