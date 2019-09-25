@@ -24,4 +24,24 @@ const testCompany = {
   about_us: 'Super cool Test Company'
 };
 
-module.exports = { testProspect, anotherTestProspect, testCompany };
+// Adding a test employee
+const testEmployee = {
+  username: 'testEmployee',
+  password: 'pass123',
+  role: 'employee'
+};
+
+// Adding a test employer
+const testEmployer = {
+  username: 'testEmployer',
+  password: 'pass123',
+  role: 'employer'
+};
+
+module.exports = {
+  testProspect,
+  anotherTestProspect,
+  testCompany,
+  testEmployer,
+  testEmployee
+};
