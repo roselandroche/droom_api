@@ -38,9 +38,15 @@ const testEmployer = {
   role: 'employer'
 };
 
-const loginEmployee = {
-  username: 'testEmployee',
+const loginUser = {
+  username: 'testUser',
   password: 'pass123'
+};
+
+const registerUser = {
+  username: 'testUser',
+  password: 'pass123',
+  role: 'employee'
 };
 
 module.exports = {
@@ -48,5 +54,7 @@ module.exports = {
   anotherTestProspect,
   testCompany,
   testEmployer,
-  testEmployee
+  testEmployee,
+  loginUser,
+  registerUser
 };

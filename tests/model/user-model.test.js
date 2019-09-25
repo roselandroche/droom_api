@@ -41,7 +41,7 @@ describe('The Users Model', () => {
     expect(user.username).toBe('testEmployee');
   });
 
-  test.skip('Should find an filtered user', async () => {
+  test('Should find an filtered user', async () => {
     // Test Setup
     const { username } = testEmployer;
     await Users.addUser(testEmployer);
@@ -49,6 +49,6 @@ describe('The Users Model', () => {
 
     // Assertion
 
-    expect(user).toContain([testEmployer]);
+    expect(user.username).toBe(username);
   });
 });

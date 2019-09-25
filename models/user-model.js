@@ -26,5 +26,6 @@ function findBy(filter) {
   return db
     .select('*')
     .from('users')
-    .where(filter);
+    .where(filter)
+    .first();
 }

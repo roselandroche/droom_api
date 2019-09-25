@@ -4,12 +4,7 @@ const constant = require('../constants');
 const db = require('../../database/dbConfig');
 
 describe('Auth Server', () => {
-  const user = {
-    username: 'testUser',
-    password: 'pass123',
-    role: 'employee'
-  };
-
+  const { registerUser, loginUser } = constant;
   let token;
 
   describe('POST /register', () => {
@@ -19,7 +14,7 @@ describe('Auth Server', () => {
     test('should returns status 201', () => {
       return request(server)
         .post('/api/auth/register')
-        .send(user)
+        .send(registerUser)
         .then(res => {
           expect(res.status).toBe(201);
         });
@@ -30,7 +25,7 @@ describe('Auth Server', () => {
     test('should return a JWT ', () => {
       return request(server)
         .post('/api/auth/login')
-        .send(user)
+        .send(loginUser)
         .then(res => {
           expect(res.body).toHaveProperty('message');
           expect(res.body).toHaveProperty('token');
