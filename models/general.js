@@ -1,16 +1,16 @@
 const db = require('../database/dbConfig.js');
 
 module.exports = {
-  getCompanies,
-  addProfile,
+  get,
+  add,
   singleCompany
 };
 
-async function getCompanies() {
+async function get() {
   return db.select('*').from('employer');
 }
 
-async function addProfile(data) {
+async function add(data) {
   const [prospect] = await db
     .from('prospect')
     .insert(data)
@@ -25,3 +25,15 @@ async function singleCompany(id) {
     .where({ id });
   return company;
 }
+
+// function update(id, changes) {
+//   return db('users')
+//     .where({ id })
+//     .update(changes);
+// }
+
+// function remove(id) {
+//   return db('users')
+//     .where('id', id)
+//     .del();
+// }

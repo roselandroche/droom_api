@@ -1,4 +1,4 @@
-const Prospect = require('../models/prospect-model');
+const Prospect = require('../models/general');
 const db = require('../database/dbConfig');
 const constant = require('./constants');
 

@@ -5,7 +5,8 @@ module.exports = {
   sampleFindBy,
   sampleFindById,
   sampleGet,
-  add
+  add,
+  sampleGetPosting
 };
 
 // Sets ID to await an insertion of a new user into the users DB then finds the user using the
@@ -35,6 +36,23 @@ async function sampleFindById(id) {
 
 async function sampleGet(table) {
   return db.select('*').from(table);
+}
+
+async function sampleGetPosting() {
+  // return db
+  //   .select('e.company_name', 'l.position', 'l.req_skills', 'l.bonus_skills')
+  //   .from('listings AS l')
+  //   .join('employer AS e', 'e.id', 'l.company')
+  //   .where('l.company', '=', 'e.id');
+  return db('listings AS l')
+    .join('employer AS e', 'l.company', '=', 'e.id')
+    .select(
+      'e.company_name',
+      'e.about_us',
+      'l.position',
+      'l.req_skills',
+      'l.bonus_skills'
+    );
 }
 
 async function add(table, data) {
