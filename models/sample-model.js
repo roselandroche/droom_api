@@ -39,11 +39,6 @@ async function sampleGet(table) {
 }
 
 async function sampleGetPosting() {
-  // return db
-  //   .select('e.company_name', 'l.position', 'l.req_skills', 'l.bonus_skills')
-  //   .from('listings AS l')
-  //   .join('employer AS e', 'e.id', 'l.company')
-  //   .where('l.company', '=', 'e.id');
   return db('listings AS l')
     .join('employer AS e', 'l.company', '=', 'e.id')
     .select(
