@@ -94,7 +94,7 @@ router.get('/employers', async (_, res) => {
 
 router.get('/postings', async (_, res) => {
   try {
-    const getPostings = await sample.sampleGet('listings');
+    const getPostings = await sample.sampleGetPosting();
     res.status(200).json(getPostings);
   } catch (error) {
     res.status(500).json({ message: 'Error processing request' });
