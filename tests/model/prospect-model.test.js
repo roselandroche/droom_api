@@ -1,6 +1,6 @@
-const Prospect = require('../models/general');
-const db = require('../database/dbConfig');
-const constant = require('./constants');
+const Prospect = require('../../models/general');
+const db = require('../../database/dbConfig');
+const constant = require('../constants');
 
 describe('The Prospect Model', () => {
   const { testProspect, anotherTestProspect } = constant;
