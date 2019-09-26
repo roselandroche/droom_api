@@ -5,9 +5,9 @@ require('dotenv').config();
 
 const auth = require('../auth/auth-middleware.js');
 const authRouter = require('../auth/auth-router.js');
-const sampleRouter = require('../dreams/sample-data-router');
-const employeeRouter = require('../dreams/employee-router.js');
-const employerRouter = require('../dreams/employer-router');
+const sampleRouter = require('../routes/sample-data-router');
+const employeeRouter = require('../routes/employee-router.js');
+const employerRouter = require('../routes/employer-router');
 
 const server = express();
 

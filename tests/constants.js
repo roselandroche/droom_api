@@ -11,6 +11,32 @@ const loginUser = {
   password: 'pass123'
 };
 
+// Registration for protected route
+const registerEmployee = {
+  username: 'testEmployee',
+  password: 'P_o0i9u8y7t6r5E$',
+  role: 'employee'
+};
+
+// Login for protected route
+const loginEmployee = {
+  username: 'testEmployee',
+  password: 'P_o0i9u8y7t6r5E$'
+};
+
+// Registration for protected route
+const registerEmployer = {
+  username: 'testEmployee',
+  password: 'P_o0i9u8y7t6r5E$',
+  role: 'employee'
+};
+
+// Login for protected route
+const loginEmployer = {
+  username: 'testEmployee',
+  password: 'P_o0i9u8y7t6r5E$'
+};
+
 // A test prospect to test insert and add
 const testProspect = {
   name: 'Test Prospect',
@@ -72,6 +98,10 @@ const listingUpdate = {
 module.exports = {
   loginUser,
   registerUser,
+  registerEmployee,
+  loginEmployee,
+  registerEmployer,
+  loginEmployer,
   testProspect,
   anotherTestProspect,
   testCompany,

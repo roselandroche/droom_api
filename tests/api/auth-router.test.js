@@ -11,6 +11,7 @@ describe('Auth Server', () => {
     beforeEach(async () => {
       await db('users').truncate();
     });
+
     test('should returns status 201', () => {
       return request(server)
         .post('/api/auth/register')
