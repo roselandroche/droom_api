@@ -7,7 +7,7 @@ const auth = require('../auth/auth-middleware.js');
 const authRouter = require('../auth/auth-router.js');
 const employeeRouter = require('../routes/employee-router.js');
 const employerRouter = require('../routes/employer-router');
-const sampleRouter = require('../models/sample-model');
+const sampleRouter = require('../routes/sample-data-router');
 
 const server = express();
 
