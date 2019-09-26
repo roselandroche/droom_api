@@ -12,7 +12,7 @@ router.post('/register', (req, res) => {
 
   // Using the helper function add, we send the user object to the database, then we send the user a response
   // Introducing them to our dadjoke hellscape
-  Users.add(user)
+  Users.addUser(user)
     .then(savedUser => {
       const { username } = savedUser;
       res.status(201).json({ message: `Good luck, ${username}` });

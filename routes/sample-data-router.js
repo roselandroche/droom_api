@@ -20,7 +20,6 @@ router.post('/register', validateRegistration, (req, res) => {
       res.status(201).json({ message: `Good luck, ${username}` });
     })
     .catch(error => {
-      console.log(error);
       res.status(500).json({ message: 'Error processing request' });
     });
 });
@@ -47,7 +46,6 @@ router.post('/login', (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error);
       res.status(500).json({ message: 'Error processing request' });
     });
 });

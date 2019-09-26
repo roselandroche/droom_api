@@ -20,7 +20,9 @@ async function sampleAddUser(user) {
 }
 // Using a given filter, filters users table and returns the filtered user
 async function sampleFindBy(filter) {
-  return db('users')
+  return db
+    .select('*')
+    .from('users')
     .where(filter)
     .first();
 }
