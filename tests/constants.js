@@ -1,3 +1,16 @@
+// Register
+const registerUser = {
+  username: 'testUser',
+  password: 'pass123',
+  role: 'employee'
+};
+
+// Login
+const loginUser = {
+  username: 'testUser',
+  password: 'pass123'
+};
+
 // A test prospect to test insert and add
 const testProspect = {
   name: 'Test Prospect',
@@ -8,20 +21,24 @@ const testProspect = {
   about_me: 'I am the first Test Prospect'
 };
 
-// A second test prospect to test filtered return
 const anotherTestProspect = {
   name: 'Test Prospect 2',
-  email: 'Test2@jest.com',
+  email: 'Tester@jester.com',
   phone_number: '0000000001',
-  job_title: 'Test',
-  skills: 'Jest, Supertest',
-  about_me: 'I am the second Test Prospect'
+  job_title: 'Tester',
+  skills: 'Jest, Supertester',
+  about_me: 'I am the first Test Prospecter'
 };
 
 // A test company
 const testCompany = {
   company_name: 'Test Company',
   about_us: 'Super cool Test Company'
+};
+
+const anotherTestCompany = {
+  company_name: 'Super Cool Company',
+  about_us: 'Super cool company who does alot of jest testing'
 };
 
 // A test employee
@@ -38,23 +55,29 @@ const testEmployer = {
   role: 'employer'
 };
 
-const loginUser = {
-  username: 'testUser',
-  password: 'pass123'
+const listing = {
+  company: 1,
+  position: 'Software Engineer in Test',
+  req_skills: 'Jest, Supertest, BDD, TDD',
+  bonus_skills: 'Ruby, Cucumber'
 };
 
-const registerUser = {
-  username: 'testUser',
-  password: 'pass123',
-  role: 'employee'
+const listingUpdate = {
+  company: 1,
+  position: 'DevOps Engineer',
+  req_skills: 'AWS, Docker, Kubernetes',
+  bonus_skills: 'Linux'
 };
 
 module.exports = {
+  loginUser,
+  registerUser,
   testProspect,
   anotherTestProspect,
   testCompany,
+  anotherTestCompany,
   testEmployer,
   testEmployee,
-  loginUser,
-  registerUser
+  listing,
+  listingUpdate
 };

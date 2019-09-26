@@ -3,7 +3,8 @@ const db = require('../database/dbConfig.js');
 module.exports = {
   addUser,
   findById,
-  findBy
+  findBy,
+  deleteAccount
 };
 
 async function addUser(user) {
@@ -22,10 +23,18 @@ async function findById(id) {
     .first();
 }
 
-function findBy(filter) {
+async function findBy(filter) {
   return db
     .select('*')
     .from('users')
     .where(filter)
     .first();
+}
+
+async function deleteAccount(id) {
+  return db
+    .select('*')
+    .from('users')
+    .where({ id })
+    .del();
 }

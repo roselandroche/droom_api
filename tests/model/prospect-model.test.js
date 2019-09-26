@@ -1,4 +1,4 @@
-const Prospect = require('../../models/general');
+const Prospect = require('../../models/prospect-model');
 const db = require('../../database/dbConfig');
 const constant = require('../constants');
 
@@ -11,10 +11,10 @@ describe('The Prospect Model', () => {
 
   test('Should add our new test prospect', async () => {
     // Test Setup
-    await Prospect.add(testProspect);
+    await Prospect.addProfile(testProspect);
 
     // Assertion
-    const prospects = await db.select('*').from('prospect');
+    const prospects = await Prospect.getProspects();
     expect(prospects.length).toBe(1);
     expect(prospects[0].id).toBe(1);
     expect(prospects[0].name).toBe('Test Prospect');
@@ -25,16 +25,23 @@ describe('The Prospect Model', () => {
     expect(prospects[0].about_me).toBe('I am the first Test Prospect');
   });
 
-  test('Should add our second new test prospect', async () => {
+  test('Should return a single employee', async () => {
     // Test Setup
-    await Prospect.add(testProspect);
-    await Prospect.add(anotherTestProspect);
+    await Prospect.addProfile(testProspect);
+    await Prospect.addProfile(anotherTestProspect);
 
-    // Assertion
-    const prospects = await db.select('*').from('prospect');
-    expect(prospects.length).toBe(2);
-    expect(prospects[1].id).toBe(2);
+    // Assertions
+    const prospect = await Prospect.singleProspect(2);
+    expect(prospect.id).toBe(2);
   });
 
-  test.skip('Should return a single company', async () => {});
+  test('Should update a employee profile', async () => {
+    // Test Setup
+    await Prospect.addProfile(testProspect);
+    await Prospect.updateProfile(1, anotherTestProspect);
+
+    // Assertions
+    const prospect = await Prospect.singleProspect(1);
+    expect(prospect.name).toBe('Test Prospect 2');
+  });
 });
