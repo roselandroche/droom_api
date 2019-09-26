@@ -21,7 +21,7 @@ router.get('/:id/', async (req, res) => {
   }
 });
 
-router.get('/jobs', async (req, res) => {
+router.get('/jobs', async (_, res) => {
   try {
     const getListings = await Listing.getListings();
     res.status(200).json(getListings);

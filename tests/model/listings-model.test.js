@@ -2,7 +2,7 @@ const Listing = require('../../models/listings-model');
 const db = require('../../database/dbConfig');
 const constant = require('../constants');
 
-describe('The Listing Model', () => {
+describe.skip('The Listing Model', () => {
   const { listing, listingUpdate } = constant;
 
   beforeEach(async () => {

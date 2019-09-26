@@ -28,23 +28,16 @@ describe('Employee Server', () => {
     await db('prospect').truncate();
   });
 
+  afterAll(async () => {
+    await db('prospect').truncate();
+  });
+
   test('should returns status 200', () => {
     return request(server)
       .get('/api/droom')
       .set('authorization', token)
       .then(res => {
         expect(res.status).toBe(200);
-      });
-  });
-
-  test('should returns status 201 and valid data', () => {
-    return request(server)
-      .post('/api/droom/profile')
-      .set('authorization', token)
-      .send(testProspect)
-      .then(res => {
-        expect(res.status).toBe(201);
-        expect(res.body.name).toBe('Test Prospect');
       });
   });
 
@@ -65,6 +58,17 @@ describe('Employee Server', () => {
         expect(res.body).toHaveProperty('job_title');
         expect(res.body).toHaveProperty('skills');
         expect(res.body).toHaveProperty('about_me');
+      });
+  });
+
+  test('should returns status 201 and valid data', () => {
+    return request(server)
+      .post('/api/droom/profile')
+      .set('authorization', token)
+      .send(testProspect)
+      .then(res => {
+        expect(res.status).toBe(201);
+        expect(res.body.name).toBe('Test Prospect');
       });
   });
 

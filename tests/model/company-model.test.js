@@ -10,6 +10,11 @@ describe('The Company Model', () => {
     await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
   });
 
+  afterAll(async () => {
+    await db.raw('TRUNCATE employer RESTART IDENTITY CASCADE');
+    await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
+  });
+
   test('Should add our new test company', async () => {
     // Test Setup
     await Company.addProfile(testCompany);
