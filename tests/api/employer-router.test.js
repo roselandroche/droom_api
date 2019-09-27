@@ -30,13 +30,13 @@ describe('Employee Server', () => {
   });
 
   beforeEach(async () => {
-    await db.raw('TRUNCATE employer RESTART IDENTITY CASCADE');
     await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
+    await db.raw('TRUNCATE employer RESTART IDENTITY CASCADE');
   });
 
   afterEach(async () => {
-    await db.raw('TRUNCATE employer RESTART IDENTITY CASCADE');
     await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
+    await db.raw('TRUNCATE employer RESTART IDENTITY CASCADE');
   });
 
   test('should returns status 200', () => {
@@ -79,7 +79,6 @@ describe('Employee Server', () => {
       .get('/api/company/jobs')
       .set('authorization', token)
       .then(res => {
-        console.log(res.body);
         expect(res.status).toBe(200);
       });
   });
@@ -96,16 +95,15 @@ describe('Employee Server', () => {
       .send(listing);
 
     return request(server)
-      .put('/api/company/1/job')
+      .get('/api/company/1/job')
       .set('authorization', token)
       .then(res => {
-        console.log(res.body);
         expect(res.status).toBe(200);
-        expect(res.body.name).toBe('Test Prospect 2');
+        expect(res.body.position).toBe('Software Engineer in Test');
       });
   });
 
-  test.skip('should returns status 201 and valid data', () => {
+  test('should returns status 201 and valid data', () => {
     return request(server)
       .post('/api/company/profile')
       .set('authorization', token)
@@ -116,19 +114,24 @@ describe('Employee Server', () => {
       });
   });
 
-  test.skip('should update a single user', async () => {
+  test('should update a single user', async () => {
     await request(server)
       .post('/api/company/profile')
       .set('authorization', token)
-      .send(testProspect);
+      .send(testCompany);
+
+    await request(server)
+      .post('/api/company/job')
+      .set('authorization', token)
+      .send(listing);
 
     return request(server)
-      .put('/api/company/1/profile')
+      .put('/api/company/1/job')
       .set('authorization', token)
-      .send(anotherTestProspect)
+      .send(listingUpdate)
       .then(res => {
         expect(res.status).toBe(200);
-        expect(res.body.name).toBe('Test Prospect 2');
+        expect(res.body.name).toBe('Super cool Test Company');
       });
   });
 });

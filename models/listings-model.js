@@ -2,6 +2,7 @@ const db = require('../database/dbConfig.js');
 
 module.exports = {
   addListing,
+  getListingsRaw,
   getListings,
   getListing,
   updateListing,
@@ -14,6 +15,10 @@ async function addListing(post) {
     .insert(post)
     .returning('*');
   return listing;
+}
+
+async function getListingsRaw() {
+  return db.select('*').from('listings');
 }
 
 async function getListings() {
