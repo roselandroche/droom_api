@@ -34,7 +34,7 @@ describe('Employee Server', () => {
     await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await db.raw('TRUNCATE employer RESTART IDENTITY CASCADE');
     await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
   });
@@ -66,6 +66,11 @@ describe('Employee Server', () => {
 
   test('should return a job listings', async () => {
     await request(server)
+      .post('/api/company/profile')
+      .set('authorization', token)
+      .send(testCompany);
+
+    await request(server)
       .post('/api/company/job')
       .set('authorization', token)
       .send(listing);
@@ -80,6 +85,11 @@ describe('Employee Server', () => {
   });
 
   test('should return a single job posting', async () => {
+    await request(server)
+      .post('/api/company/profile')
+      .set('authorization', token)
+      .send(testCompany);
+
     await request(server)
       .post('/api/company/job')
       .set('authorization', token)

@@ -1,11 +1,22 @@
 const Listing = require('../../models/listings-model');
+const Company = require('../../models/company-model');
 const db = require('../../database/dbConfig');
 const constant = require('../constants');
 
-describe.skip('The Listing Model', () => {
-  const { listing, listingUpdate } = constant;
+describe('The Listing Model', () => {
+  const { listing, listingUpdate, testCompany, anotherTestCompany } = constant;
+
+  beforeAll(async () => {
+    await Company.addProfile(testCompany);
+    await Company.addProfile(anotherTestCompany);
+    await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
+  });
 
   beforeEach(async () => {
+    await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
+  });
+
+  afterEach(async () => {
     await db.raw('TRUNCATE listings RESTART IDENTITY CASCADE');
   });
 

@@ -17,7 +17,15 @@ async function addListing(post) {
 }
 
 async function getListings() {
-  return db.select('*').from('listings');
+  return db('listings AS l')
+    .join('employer AS e', 'l.company', '=', 'e.id')
+    .select(
+      'e.company_name',
+      'e.about_us',
+      'l.position',
+      'l.req_skills',
+      'l.bonus_skills'
+    );
 }
 
 async function getListing(id) {
