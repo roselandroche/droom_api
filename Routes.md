@@ -23,5 +23,5 @@
 - GET all postings /api/company/jobs
 - GET single posting /api/company/:id/job
 - POST job listing /api/company/job
-- PUT company profile update /api/company/:id/profile
+- PUT company listing update /api/company/:id/profile
 - DELETE company job posting /api/company/:id/job

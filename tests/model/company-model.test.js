@@ -21,7 +21,6 @@ describe('The Company Model', () => {
 
     // Assertion
     const company = await Company.getCompanies();
-    expect(company.length).toBe(1);
     expect(company[0].id).toBe(1);
     expect(company[0].company_name).toBe('Test Company');
     expect(company[0].about_us).toBe('Super cool Test Company');

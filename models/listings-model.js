@@ -2,6 +2,7 @@ const db = require('../database/dbConfig.js');
 
 module.exports = {
   addListing,
+  getListingsRaw,
   getListings,
   getListing,
   updateListing,
@@ -16,8 +17,20 @@ async function addListing(post) {
   return listing;
 }
 
-async function getListings() {
+async function getListingsRaw() {
   return db.select('*').from('listings');
+}
+
+async function getListings() {
+  return db('listings AS l')
+    .join('employer AS e', 'l.company', '=', 'e.id')
+    .select(
+      'e.company_name',
+      'e.about_us',
+      'l.position',
+      'l.req_skills',
+      'l.bonus_skills'
+    );
 }
 
 async function getListing(id) {
