@@ -78,7 +78,7 @@ router.get('/', async (_, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id/', async (req, res) => {
   const { id } = req.params;
   try {
     const getCompany = await Company.singleCompany(id);
