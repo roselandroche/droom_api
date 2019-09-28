@@ -39,7 +39,11 @@
 - PUT company listing update /api/company/:id/profile
 - DELETE company job posting /api/company/:id/job
 
----
+## Route Rules
+
+Prospects Can: post a profile, update a profile, get all companies, get single companies, get all postings, get single postings.
+
+Companies Can: get all prospects, get single prospects, post company profile, post job listing, update job listings, delete job listings.
 
 ## Database Schema
 
