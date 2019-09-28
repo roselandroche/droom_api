@@ -2,7 +2,7 @@
 
 ## What is Droom ?
 
-![image](https://i.imgur.com/RF1xM41.png)
+![image](https://i.imgur.com/tb8kzpd.png)
 
 ### Droom is LinkedIn meets Tinder 💖
 
