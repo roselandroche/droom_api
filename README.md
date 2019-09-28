@@ -2,6 +2,8 @@
 
 ## What is Droom ?
 
+![image](https://i.imgur.com/RF1xM41.png)
+
 ### Droom is LinkedIn meets Tinder 💖
 
 #### Matching potential prospects to companies with a tap. Finding opportunities has never been easier, spend less time dreaming about it and _droom_ your way into a career. 🚀
