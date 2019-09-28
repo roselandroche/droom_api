@@ -2,6 +2,8 @@ const router = require('express').Router();
 const Company = require('../models/company-model');
 const Listing = require('../models/listings-model');
 
+const jwt = require('jsonwebtoken');
+
 router.get('/jobs', async (_, res) => {
   try {
     const getJobs = await Listing.getListings();
@@ -60,12 +62,17 @@ router.put('/:id/job', async (req, res) => {
 });
 
 router.delete('/:id/job', async (req, res) => {
+  const token = req.headers.authorization;
+  const { role } = jwt.decode(token);
   const { id } = req.params;
-  try {
+
+  if (role === 'employer') {
     const destroy = await Listing.deleteListing(id);
     res.status(204).json(destroy);
-  } catch (error) {
-    res.status(500).json({ message: 'Error processing request' });
+  } else {
+    res
+      .status(401)
+      .json({ message: 'You are not authorized to make this action' });
   }
 });
 
