@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Prospect = require('../models/prospect-model');
 
+const jwt = require('jsonwebtoken');
+
 // Returns all job listings, ***Prospect ONLY***
 router.post('/profile', async (req, res) => {
   const token = req.headers.authorization;
@@ -33,7 +35,7 @@ router.put('/:id/profile', async (req, res) => {
 });
 
 // Returns all job listings, ***Employer ONLY***
-router.get('/', async (_, res) => {
+router.get('/', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
 
