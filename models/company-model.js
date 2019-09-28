@@ -7,6 +7,7 @@ module.exports = {
   updateProfile
 };
 
+// adds a profile with the given data and returns that post
 async function addProfile(data) {
   const [company] = await db
     .from('employer')
@@ -15,10 +16,12 @@ async function addProfile(data) {
   return company;
 }
 
+// returns all companies from the employers table
 async function getCompanies() {
   return db.select('*').from('employer');
 }
 
+// returns a single company with the given ID
 async function singleCompany(id) {
   const [company] = await db
     .select('*')
@@ -27,6 +30,7 @@ async function singleCompany(id) {
   return company;
 }
 
+// updates a profile that matches the given ID with the given post, returns that post
 async function updateProfile(id, post) {
   const [company] = await db
     .from('employer')
