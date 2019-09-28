@@ -4,6 +4,7 @@ module.exports = {
   addUser,
   findById,
   findBy,
+  getUsername,
   deleteAccount
 };
 
@@ -33,6 +34,14 @@ async function findBy(filter) {
     .from('users')
     .where(filter)
     .first();
+}
+
+async function getUsername(username) {
+  const [newUser] = await db
+    .select('username')
+    .from('users')
+    .where({ username });
+  return newUser ? newUser : null;
 }
 
 // deletes an account in users that matches the given ID

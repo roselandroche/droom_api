@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-
 const middleware = require('./auth-middleware');
 const Users = require('../models/user-model');
 
-router.post('/register', (req, res) => {
+const { validateRegistration } = middleware;
+
+router.post('/register', validateRegistration, (req, res) => {
   // Destructures body into user
   const user = req.body;
   // Takes users password and encrypts
