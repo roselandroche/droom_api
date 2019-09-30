@@ -14,7 +14,7 @@ router.get('/jobs', async (_, res) => {
   }
 });
 
-// Returns all job listings, ***Global***
+// Returns all job listings by a single company, ***Global***
 router.get('/:id/job', async (req, res) => {
   const { id } = req.params;
   try {
@@ -25,7 +25,7 @@ router.get('/:id/job', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer ONLY***
+// posts new job listing, ***Employer ONLY***
 router.post('/job', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
@@ -40,7 +40,7 @@ router.post('/job', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer ONLY***
+// posts profile, ***Employer ONLY***
 router.post('/profile', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
@@ -55,7 +55,7 @@ router.post('/profile', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer ONLY***
+// updates company profile, ***Employer ONLY***
 router.put('/:id/profile', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
@@ -71,7 +71,7 @@ router.put('/:id/profile', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer Only***
+// updates job listing, ***Employer Only***
 router.put('/:id/job', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
@@ -87,7 +87,7 @@ router.put('/:id/job', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer Only***
+// deletes job listing, ***Employer Only***
 router.delete('/:id/job', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
@@ -103,7 +103,7 @@ router.delete('/:id/job', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Global***
+// Returns all companies, ***Global***
 router.get('/', async (_, res) => {
   try {
     const getCompanies = await Company.getCompanies();
@@ -113,30 +113,15 @@ router.get('/', async (_, res) => {
   }
 });
 
-// Returns all job listings, ***Global***
+// Returns single company, ***Global***
 router.get('/:id/', async (req, res) => {
-  const token = req.headers.authorization;
-  const { subject } = jwt.decode(token);
   const { id } = req.params;
-
-  const ownership = await Company.getID(subject);
-  const log = await console.log(ownership);
-  if (ownership === id) {
-    console.log(ownership);
+  try {
     const getCompany = await Company.singleCompany(id);
-    res.status(200).json(getCompany, log);
-  } else if (ownership !== id) {
-    res.status(400).json({ message: 'These listings do not belong to you' });
-  } else {
+    res.status(200).json(getCompany);
+  } catch (error) {
     res.status(500).json({ message: 'Error processing request' });
   }
-
-  // try {
-  //   const getCompany = await Company.singleCompany(id);
-  //   res.status(200).json(getCompany);
-  // } catch (error) {
-  //   res.status(500).json({ message: 'Error processing request' });
-  // }
 });
 
 module.exports = router;

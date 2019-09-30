@@ -172,13 +172,12 @@ describe('Employer Server', () => {
       .set('authorization', employerToken)
       .send(testCompany)
       .then(res => {
-        console.log(res.body);
         expect(res.status).toBe(201);
-        expect(res.body.name).toBe('Test Company');
+        expect(res.body.company_name).toBe('Test Company');
       });
   });
 
-  test('should update a single user', async () => {
+  test('should update a single listing', async () => {
     // Register an employer account and login to employee account,
     // sets an employerToken
     let employerToken;
@@ -208,7 +207,7 @@ describe('Employer Server', () => {
       .send(listingUpdate)
       .then(res => {
         expect(res.status).toBe(200);
-        expect(res.body.name).toBe('Super cool Test Company');
+        expect(res.body.position).toBe('DevOps Engineer');
       });
   });
 });
