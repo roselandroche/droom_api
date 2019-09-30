@@ -3,7 +3,7 @@ const Company = require('../../models/company-model');
 const db = require('../../database/dbConfig');
 const constant = require('../constants');
 
-describe.skip('The Listing Model', () => {
+describe('The Listing Model', () => {
   const { listing, listingUpdate, testCompany, anotherTestCompany } = constant;
 
   beforeAll(async () => {

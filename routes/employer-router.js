@@ -28,9 +28,9 @@ router.get('/:id/job', async (req, res) => {
 // posts new job listing, ***Employer ONLY***
 router.post('/job', async (req, res) => {
   const token = req.headers.authorization;
-  const { role } = jwt.decode(token);
+  const { role, subject } = jwt.decode(token);
 
-  if (role === 'employer') {
+  if (role === 'employer' && req.body.company == subject) {
     const post = await Listing.addListing(req.body);
     res.status(200).json(post);
   } else {
@@ -58,10 +58,10 @@ router.post('/profile', async (req, res) => {
 // updates company profile, ***Employer ONLY***
 router.put('/:id/profile', async (req, res) => {
   const token = req.headers.authorization;
-  const { role } = jwt.decode(token);
+  const { role, subject } = jwt.decode(token);
   const { id } = req.params;
 
-  if (role === 'employer') {
+  if (role === 'employer' && id == subject) {
     const update = await Company.updateProfile(id, req.body);
     res.status(200).json(update);
   } else {
@@ -74,10 +74,11 @@ router.put('/:id/profile', async (req, res) => {
 // updates job listing, ***Employer Only***
 router.put('/:id/job', async (req, res) => {
   const token = req.headers.authorization;
-  const { role } = jwt.decode(token);
+  const { role, subject } = jwt.decode(token);
   const { id } = req.params;
+  const { company } = req.body;
 
-  if (role === 'employer') {
+  if (role === 'employer' && company == subject) {
     const update = await Listing.updateListing(id, req.body);
     res.status(200).json(update);
   } else {
@@ -90,10 +91,11 @@ router.put('/:id/job', async (req, res) => {
 // deletes job listing, ***Employer Only***
 router.delete('/:id/job', async (req, res) => {
   const token = req.headers.authorization;
-  const { role } = jwt.decode(token);
+  const { role, subject } = jwt.decode(token);
   const { id } = req.params;
+  const { company } = req.body;
 
-  if (role === 'employer') {
+  if (role === 'employer' && company == subject) {
     const destroy = await Listing.deleteListing(id);
     res.status(204).json(destroy);
   } else {

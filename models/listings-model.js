@@ -52,7 +52,7 @@ async function getID(id) {
   const [userID] = await db
     .select('company')
     .from('listings')
-    .where({ id });
+    .where('company', '=', id);
   return userID ? userID : null;
 }
 

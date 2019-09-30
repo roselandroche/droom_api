@@ -95,6 +95,18 @@ const listingUpdate = {
   bonus_skills: 'Linux'
 };
 
+async function Auth(reg, login) {
+  await request(server)
+    .post('/api/auth/register')
+    .send(reg);
+  await request(server)
+    .post('/api/auth/login')
+    .send(login)
+    .then(res => {
+      return (token = res.body.token);
+    });
+}
+
 module.exports = {
   loginUser,
   registerUser,
@@ -109,5 +121,6 @@ module.exports = {
   testEmployer,
   testEmployee,
   listing,
-  listingUpdate
+  listingUpdate,
+  Auth
 };
