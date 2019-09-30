@@ -1,14 +1,14 @@
 // Register
 const registerUser = {
   username: 'testUser',
-  password: 'pass123',
+  password: 'password',
   role: 'employee'
 };
 
 // Login
 const loginUser = {
   username: 'testUser',
-  password: 'pass123'
+  password: 'password'
 };
 
 // Registration for protected route
@@ -26,14 +26,14 @@ const loginEmployee = {
 
 // Registration for protected route
 const registerEmployer = {
-  username: 'testEmployee',
+  username: 'testEmployer',
   password: 'P_o0i9u8y7t6r5E$',
-  role: 'employee'
+  role: 'employer'
 };
 
 // Login for protected route
 const loginEmployer = {
-  username: 'testEmployee',
+  username: 'testEmployer',
   password: 'P_o0i9u8y7t6r5E$'
 };
 

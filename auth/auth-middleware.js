@@ -1,9 +1,28 @@
 const jwt = require('jsonwebtoken');
+const yup = require('yup');
+const Users = require('../models/user-model');
 
 module.exports = {
   generator,
-  restrict
+  restrict,
+  validateRegistration
 };
+
+const user = yup.object({
+  username: yup.string().required('Field `username` is required!'),
+  password: yup
+    .string()
+    .ensure()
+    .min(8)
+    .max(40)
+    .required('Field `password` is required!'),
+  role: yup
+    .string()
+    .oneOf(['employee', 'employer'])
+    .required(
+      'Field `role` is required and must be either employee or employer'
+    )
+});
 
 // Sets our payload and options then signs a token using the payload, our environment secret, and options.
 function generator(user) {
@@ -34,5 +53,23 @@ function restrict(req, res, next) {
     });
   } else {
     res.status(400).json({ message: 'No token provided' });
+  }
+}
+
+async function validateRegistration(req, res, next) {
+  try {
+    await user.validate(req.body);
+
+    const username = await Users.getUsername(req.body.username);
+
+    if (username) {
+      res.status(400).json({
+        message: `The user: ${req.body.username} already has an account`
+      });
+    } else {
+      next();
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 }

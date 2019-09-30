@@ -5,14 +5,50 @@ const db = require('../../database/dbConfig');
 
 describe('Employee Server', () => {
   const {
+    registerEmployer,
+    loginEmployer,
     registerEmployee,
     loginEmployee,
     testProspect,
     anotherTestProspect
   } = constant;
-  let token;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
+    await db('prospect').truncate();
+    await db('users').truncate();
+  });
+
+  afterAll(async () => {
+    await db('prospect').truncate();
+    await db('users').truncate();
+  });
+
+  test('should returns status 200', async () => {
+    // Register an employer account and login to employee account,
+    // sets an employerToken
+    let employerToken;
+    await request(server)
+      .post('/api/auth/register')
+      .send(registerEmployer);
+    await request(server)
+      .post('/api/auth/login')
+      .send(loginEmployer)
+      .then(res => {
+        return (employerToken = res.body.token);
+      });
+
+    return request(server)
+      .get('/api/droom')
+      .set('authorization', employerToken)
+      .then(res => {
+        expect(res.status).toBe(200);
+      });
+  });
+
+  test('should return a single user', async () => {
+    // Register an employee account and login to employee account,
+    // sets an employeeToken
+    let employeeToken;
     await request(server)
       .post('/api/auth/register')
       .send(registerEmployee);
@@ -20,36 +56,29 @@ describe('Employee Server', () => {
       .post('/api/auth/login')
       .send(loginEmployee)
       .then(res => {
-        return (token = res.body.token);
+        return (employeeToken = res.body.token);
       });
-  });
-
-  beforeEach(async () => {
-    await db('prospect').truncate();
-  });
-
-  afterAll(async () => {
-    await db('prospect').truncate();
-  });
-
-  test('should returns status 200', () => {
-    return request(server)
-      .get('/api/droom')
-      .set('authorization', token)
-      .then(res => {
-        expect(res.status).toBe(200);
-      });
-  });
-
-  test('should return a single user', async () => {
     await request(server)
       .post('/api/droom/profile')
-      .set('authorization', token)
+      .set('authorization', employeeToken)
       .send(testProspect);
+
+    // Register an employer account and login to employee account,
+    // sets an employerToken
+    let employerToken;
+    await request(server)
+      .post('/api/auth/register')
+      .send(registerEmployer);
+    await request(server)
+      .post('/api/auth/login')
+      .send(loginEmployer)
+      .then(res => {
+        return (employerToken = res.body.token);
+      });
 
     return request(server)
       .get('/api/droom/1')
-      .set('authorization', token)
+      .set('authorization', employerToken)
       .then(res => {
         expect(res.body).toHaveProperty('id');
         expect(res.body).toHaveProperty('name');
@@ -61,10 +90,23 @@ describe('Employee Server', () => {
       });
   });
 
-  test('should returns status 201 and valid data', () => {
+  test('should returns status 201 and valid data', async () => {
+    // Register an employee account and login to employee account,
+    // sets an employeeToken
+    let employeeToken;
+    await request(server)
+      .post('/api/auth/register')
+      .send(registerEmployee);
+    await request(server)
+      .post('/api/auth/login')
+      .send(loginEmployee)
+      .then(res => {
+        return (employeeToken = res.body.token);
+      });
+
     return request(server)
       .post('/api/droom/profile')
-      .set('authorization', token)
+      .set('authorization', employeeToken)
       .send(testProspect)
       .then(res => {
         expect(res.status).toBe(201);
@@ -73,14 +115,28 @@ describe('Employee Server', () => {
   });
 
   test('should update a single user', async () => {
+    // Register an employee account and login to employee account,
+    // sets an employeeToken
+    let employeeToken;
+    await request(server)
+      .post('/api/auth/register')
+      .send(registerEmployee);
+    await request(server)
+      .post('/api/auth/login')
+      .send(loginEmployee)
+      .then(res => {
+        return (employeeToken = res.body.token);
+      });
+    // Post a profile using the employee token
     await request(server)
       .post('/api/droom/profile')
-      .set('authorization', token)
+      .set('authorization', employeeToken)
       .send(testProspect);
 
+    // updates that posted profile with new information
     return request(server)
       .put('/api/droom/1/profile')
-      .set('authorization', token)
+      .set('authorization', employeeToken)
       .send(anotherTestProspect)
       .then(res => {
         expect(res.status).toBe(200);
