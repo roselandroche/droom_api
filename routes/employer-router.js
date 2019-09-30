@@ -115,13 +115,28 @@ router.get('/', async (_, res) => {
 
 // Returns all job listings, ***Global***
 router.get('/:id/', async (req, res) => {
+  const token = req.headers.authorization;
+  const { subject } = jwt.decode(token);
   const { id } = req.params;
-  try {
+
+  const ownership = await Company.getID(subject);
+  const log = await console.log(ownership);
+  if (ownership === id) {
+    console.log(ownership);
     const getCompany = await Company.singleCompany(id);
-    res.status(200).json(getCompany);
-  } catch (error) {
+    res.status(200).json(getCompany, log);
+  } else if (ownership !== id) {
+    res.status(400).json({ message: 'These listings do not belong to you' });
+  } else {
     res.status(500).json({ message: 'Error processing request' });
   }
+
+  // try {
+  //   const getCompany = await Company.singleCompany(id);
+  //   res.status(200).json(getCompany);
+  // } catch (error) {
+  //   res.status(500).json({ message: 'Error processing request' });
+  // }
 });
 
 module.exports = router;

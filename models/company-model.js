@@ -3,6 +3,7 @@ const db = require('../database/dbConfig.js');
 module.exports = {
   addProfile,
   getCompanies,
+  getID,
   singleCompany,
   updateProfile
 };
@@ -19,6 +20,15 @@ async function addProfile(data) {
 // returns all companies from the employers table
 async function getCompanies() {
   return db.select('*').from('employer');
+}
+
+// Returns either an ID matching the employer ID from a given token or null
+async function getID(id) {
+  const [userID] = await db
+    .select('id')
+    .from('employer')
+    .where({ id });
+  return userID ? userID : null;
 }
 
 // returns a single company with the given ID

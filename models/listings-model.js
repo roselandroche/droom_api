@@ -5,6 +5,7 @@ module.exports = {
   getListingsRaw,
   getListings,
   getListing,
+  getID,
   updateListing,
   deleteListing
 };
@@ -44,6 +45,15 @@ async function getListing(id) {
     .from('listings')
     .where({ id })
     .first();
+}
+
+// Returns either an ID matching the listings ID from a given token or null
+async function getID(id) {
+  const [userID] = await db
+    .select('company')
+    .from('listings')
+    .where({ id });
+  return userID ? userID : null;
 }
 
 // updates a listing that matches an ID using a given post and returns that post

@@ -34,7 +34,7 @@ router.put('/:id/profile', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer ONLY***
+// Returns all prospects, ***Employer ONLY***
 router.get('/', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Returns all job listings, ***Employer ONLY***
+// Returns single prospect, ***Employer ONLY***
 router.get('/:id', async (req, res) => {
   const token = req.headers.authorization;
   const { role } = jwt.decode(token);
