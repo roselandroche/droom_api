@@ -14,7 +14,7 @@ router.get('/jobs', async (_, res) => {
   }
 });
 
-// Returns all job listings by a single company, ***Global***
+// Returns a single listing by id, ***Global***
 router.get('/:id/job', async (req, res) => {
   const { id } = req.params;
   try {
